@@ -76,8 +76,8 @@ class Dataset:
                 im, seg = self.read_im(im), self.read_seg(seg)
                 if self.do_aug:
                     im, seg = self.augment(im, seg)
-                X.append(im)
-                Y.append(seg)
+                X.append(self.to_tensor_im(im))
+                Y.append(self.to_tensor_seg(seg))
             yield np.array(X), np.array(Y)
 
     def read_im(self, im):
@@ -90,7 +90,16 @@ class Dataset:
         seg = cv2.cvtColor(seg, cv2.COLOR_BGR2GRAY)
         seg = (seg != 0).astype(np.uint8)
         seg = cv2.resize(seg, (self.out_size, self.out_size))
-        seg = seg.reshape((self.out_size * self.out_size, 1))
+        return seg
+    
+    def to_tensor_im(self, im):
+        im = im.astype(np.float32)
+        im = im / 255.0
+        return im
+
+    def to_tensor_seg(self, seg):
+        seg = seg.reshape(self.out_size * self.out_size, 1)
+        seg = seg.astype(np.float32)
         return seg
 
     def augment(self, image, mask):
