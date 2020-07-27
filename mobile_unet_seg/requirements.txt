@@ -1,0 +1,10 @@
+jupyter
+jupyterlab
+
+opencv-python
+matplotlib
+numpy
+albumentations
+requests
+yacs
+tensorflow

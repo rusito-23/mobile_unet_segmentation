@@ -122,7 +122,7 @@ class MobileNet(Model):
     Saves partial output to perform skip connections for each Encoder Block.
     """
 
-    def __init__(self, cfg):
+    def __init__(self):
         super(MobileNet, self).__init__()
         # setup blocks
         self.conv_32 = ConvBlock(32, strides=(2, 2))
@@ -156,7 +156,7 @@ class DecoderBlock(Sequential):
         - filters: target channels
         - with_upsampling: bool to perform final upsampling
     """
-    def __init__(self, filters, with_upsampling=True):
+    def __init__(self, filters):
         super(DecoderBlock, self).__init__([
             ZeroPadding2D((1, 1), data_format=DF),
             Conv2D(filters, (3, 3),
@@ -164,9 +164,8 @@ class DecoderBlock(Sequential):
                    activation='relu',
                    data_format=DF),
             BatchNormalization(),
+            UpSampling2D((2, 2), data_format=DF)
         ])
-        if with_upsampling:
-            self.add(UpSampling2D((2, 2), data_format=DF))
 
 
 class UNet(Model):
@@ -176,13 +175,13 @@ class UNet(Model):
     (in fact, the `call` method takes the skip connection tuple)
     and reaches the `n_classes`.
     """
-    def __init__(self, cfg):
+    def __init__(self, n_classes):
         super(UNet, self).__init__()
         self.decoder_block_512 = DecoderBlock(512)
         self.decoder_block_256 = DecoderBlock(256)
         self.decoder_block_128 = DecoderBlock(128)
-        self.decoder_block_64 = DecoderBlock(64, with_upsampling=False)
-        self.conv_out = Conv2D(cfg.N_CLASSES,
+        self.decoder_block_64 = DecoderBlock(64)
+        self.conv_out = Conv2D(n_classes,
                                (3, 3),
                                padding='same',
                                data_format=DF)
@@ -208,17 +207,17 @@ class MobileUNetSegmentation(Model):
     Intended for binary classification, uses Sigmoid activation.
     """
 
-    def __init__(self, cfg):
+    def __init__(self, n_classes, in_size, out_size):
         super(MobileUNetSegmentation, self).__init__()
 
         # set up backbone - head
-        self.encoder = MobileNet(cfg)
-        self.decoder = UNet(cfg)
+        self.encoder = MobileNet()
+        self.decoder = UNet(n_classes=n_classes)
 
         # set up config
-        self.n_classes = cfg.N_CLASSES
-        self.input_height = self.input_width = cfg.IN_SIZE
-        self.output_height = self.out_width = cfg.OUT_SIZE
+        self.n_classes = n_classes
+        self.input_height = self.input_width = in_size
+        self.output_height = self.out_width = out_size
 
         # set up segmentation layers
         self.reshape = Reshape((self.output_height*self.out_width, -1))
@@ -230,3 +229,9 @@ class MobileUNetSegmentation(Model):
         x = self.reshape(x)
         x = self.activation(x)
         return x
+
+if __name__ == '__main__':
+    import numpy as np
+    model = MobileUNetSegmentation(n_classes=1, in_size=224, out_size=112)
+    model.build(input_shape=(None, 224, 224, 3))
+    _ = model(np.random.randn(1, 224, 224, 3))

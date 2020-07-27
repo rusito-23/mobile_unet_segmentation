@@ -8,13 +8,15 @@ from yacs.config import CfgNode as CN
 
 _C = CN()
 
+_C.OUTPUT_DIR = 'runs/v001'
+
 # train config
 
 _C.LEARNING_RATE = 1e-3
 _C.BATCH_SIZE = 96
 _C.EPOCHS = 100
 
-# model config
+# pretrained weights config
 
 _C.WEIGHTS_URL = ('https://github.com/fchollet/'
                   'deep-learning-models/releases/download/v0.6/'
@@ -23,7 +25,7 @@ _C.WEIGHTS_URL = ('https://github.com/fchollet/'
 # data config
 
 _C.IN_SIZE = 224
-_C.OUT_SIZE = 128
+_C.OUT_SIZE = 112
 _C.N_CLASSES = 1
 _C.AUG = False
 
