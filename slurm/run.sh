@@ -30,7 +30,7 @@ tgnotify \
 
 export CUDA_VISIBLE_DEVICES=$3
 
-$PYTHON_PATH source/train.py \
+$PYTHON_PATH mobile_unet_seg/train.py \
     --config-file $CONFIG_FILE
 
 tgnotify \
