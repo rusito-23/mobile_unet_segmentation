@@ -56,6 +56,8 @@ class Dataset:
         self.batch_size = batch_size
 
         # validation
+        assert len(self.ims) != 0, 'Empty images!'
+        assert len(self.segs) != 0, 'Empty segs!'
         for i, s in zip(self.ims, self.segs):
             sname = s.split('/')[-1].split('.')[0]
             iname = i.split('/')[-1].split('.')[0]
@@ -88,7 +90,7 @@ class Dataset:
         seg = cv2.cvtColor(seg, cv2.COLOR_BGR2GRAY)
         seg = (seg != 0).astype(np.uint8)
         seg = cv2.resize(seg, (self.out_size, self.out_size))
-        seg = sef.reshape((self.out_size * self.out_size, 1))
+        seg = seg.reshape((self.out_size * self.out_size, 1))
         return seg
 
     def augment(self, image, mask):
