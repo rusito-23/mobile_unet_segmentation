@@ -94,6 +94,8 @@ class Dataset:
         im = cv2.resize(im, (self.in_size, self.in_size))
         im = im.astype(np.float32)
         im = im / 255.0
+        im -= 0.5
+        im *= 2.
         return im
 
     def to_tensor_seg(self, seg):

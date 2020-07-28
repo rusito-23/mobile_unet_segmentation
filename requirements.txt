@@ -8,3 +8,4 @@ albumentations
 requests
 yacs
 tensorflow
+tensorflow-gpu
