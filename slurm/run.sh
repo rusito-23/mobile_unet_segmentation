@@ -28,7 +28,7 @@ tgnotify \
     --title "BackSeg" \
     --subtitle "Traning started"
 
-export CUDA_VISIBLE_DEVICES=$3
+export CUDA_VISIBLE_DEVICES=$CUDA_DEVICE
 
 $PYTHON_PATH mobile_unet_seg/train.py \
     --config-file $CONFIG_FILE
