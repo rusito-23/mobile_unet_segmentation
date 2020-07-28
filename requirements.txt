@@ -1,11 +1,13 @@
 jupyter
 jupyterlab
 
+tensorflow==2.0
+tensorflow-gpu==2.0
+
 opencv-python
+albumentations
+
 matplotlib
 numpy
-albumentations
 requests
 yacs
-tensorflow
-tensorflow-gpu

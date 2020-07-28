@@ -1,6 +1,7 @@
 import os
 import argparse
 import logging
+import tensorflow as tf
 from tensorflow.keras.callbacks import (
     EarlyStopping,
     ModelCheckpoint,
@@ -29,6 +30,9 @@ def train(cfg):
     # config logger
     config_logger(logs_path)
     log = logging.getLogger('mobile_unet_seg')
+
+    # check cuda
+    log.info(f'CUDA AVAILABLE: {tf.test.is_gpu_available()}')
 
     # create model
     model = MobileUNet(n_classes=cfg.N_CLASSES,
