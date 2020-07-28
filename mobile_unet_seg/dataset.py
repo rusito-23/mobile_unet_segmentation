@@ -82,22 +82,22 @@ class Dataset:
 
     def read_im(self, im):
         im = cv2.imread(im)
-        im = cv2.resize(im, (self.in_size, self.in_size))
         return im
 
     def read_seg(self, seg):
         seg = cv2.imread(seg)
         seg = cv2.cvtColor(seg, cv2.COLOR_BGR2GRAY)
         seg = (seg != 0).astype(np.uint8)
-        seg = cv2.resize(seg, (self.out_size, self.out_size))
         return seg
     
     def to_tensor_im(self, im):
+        im = cv2.resize(im, (self.in_size, self.in_size))
         im = im.astype(np.float32)
         im = im / 255.0
         return im
 
     def to_tensor_seg(self, seg):
+        seg = cv2.resize(seg, (self.out_size, self.out_size))
         seg = seg.reshape(self.out_size * self.out_size, 1)
         seg = seg.astype(np.float32)
         return seg

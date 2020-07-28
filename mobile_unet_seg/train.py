@@ -8,7 +8,7 @@ from tensorflow.keras.callbacks import (
     TensorBoard
 )
 from config import _C as cfg
-from model import MobileUNetSegmentation
+from model import MobileUNet 
 from dataset import create_loaders
 from log_callback import LoggerCallback
 from iou import iou
@@ -31,9 +31,10 @@ def train(cfg):
     log = logging.getLogger('mobile_unet_seg')
 
     # create model
-    model = MobileUNetSegmentation(n_classes=cfg.N_CLASSES,
-                                   in_size=cfg.IN_SIZE,
-                                   out_size=cfg.OUT_SIZE)
+    model = MobileUNet(n_classes=cfg.N_CLASSES,
+                       in_size=cfg.IN_SIZE,
+                       out_size=cfg.OUT_SIZE,
+                       weights_url=cfg.WEIGHTS_URL)
 
     # compile
     model.compile(
