@@ -188,4 +188,4 @@ slurm/*.out
 slurm/logs
 
 # TF Dependency
-app/tensorflow
+tensorflow
