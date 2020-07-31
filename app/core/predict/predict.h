@@ -35,7 +35,7 @@ private:
     std::unique_ptr<tflite::Interpreter> interpreter;
     std::unique_ptr<tflite::FlatBufferModel> model;
 
-    float *preprocess(cv::Mat im);
+    void preprocess(cv::Mat im, float* input_tensor);
     cv::Mat postprocess(float *out);
 };
 

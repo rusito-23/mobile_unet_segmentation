@@ -16,42 +16,34 @@ MaskPredictor::MaskPredictor (const char* model_file, float thres):
 
 
 cv::Mat MaskPredictor::predict_mask (cv::Mat im) {
-    // Preprocess image
-    float* input = preprocess(im);
-
     // Set input tensor
     int input_idx = interpreter->inputs()[0];
     float* input_tensor = interpreter->typed_tensor<float>(input_idx); 
-    memcpy(input_tensor, input, IN_TENSOR_SIZE * sizeof(float));
+    preprocess(im, input_tensor);
 
     // Invoke interpreter
     interpreter->Invoke();
 
-    // Get output tensor
+    // Get output
     int output_idx = interpreter->outputs()[0];
     float *output_tensor = interpreter->typed_output_tensor<float>(output_idx);
-
-    // Convert output to image
     cv::Mat mask = postprocess(output_tensor);
 
     return mask;
 }
 
 
-float* MaskPredictor::preprocess(cv::Mat im) {
+void MaskPredictor::preprocess(cv::Mat im, float* input_tensor) {
     // resize and convert
     cv::resize(im, im, cvSize(IN_SIZE, IN_SIZE));
-    im.convertTo(im, CV_32F);
 
     // convert to float ptr
-    float* input = (float*)im.data;
+    uint8_t* input = im.ptr<uint8_t>(0);
 
     // normalize
-    for (int i = 0; i < OUT_TENSOR_SIZE; i++) {
-        input[i] = ((input[i] / 255.0f) - 0.5f) * 2.0f; 
+    for (int i = 0; i < IN_TENSOR_SIZE; i++) {
+        input_tensor[i] = ((input[i] / 255.0f) - 0.5f) * 2.0f; 
     }
-
-    return input;
 }
 
 cv::Mat MaskPredictor::postprocess(float *out) {
