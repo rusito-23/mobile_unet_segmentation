@@ -34,7 +34,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/cuda/$CUDA_VERSION/extras/CUPTI/lib
 export CUDA_HOME=/opt/cuda/$CUDA_VERSION
 export CUDA_VISIBLE_DEVICES=$CUDA_DEVICE
 
-$PYTHON_PATH mobile_unet_seg/train.py \
+$PYTHON_PATH train/train.py \
     --config-file $CONFIG_FILE
 
 tgnotify \
