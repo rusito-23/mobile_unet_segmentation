@@ -1,0 +1,10 @@
+platform :ios, '11.0'
+
+workspace 'rtios'
+project 'rtios.xcodeproj'
+
+target 'rtios' do
+    project 'rtios.xcodeproj'
+
+    pod 'OpenCV'
+end

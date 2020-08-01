@@ -7,7 +7,6 @@
 //
 
 #import "CaptureSession.h"
-#import "UIImage+SampleBuffer.h"
 
 @interface CaptureSession () <AVCaptureVideoDataOutputSampleBufferDelegate>
 @property (weak, nonatomic) NSObject<CaptureSessionDelegate> *delegate;
@@ -62,8 +61,7 @@
 #pragma mark - Sample Buffer Delegate
 
 -(void) captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
-    UIImage *frame = [UIImage fromSampleBuffer:sampleBuffer];
-    [self.delegate captureSession:self didCaptureFrame:frame];
+    [self.delegate captureSession:self didCaptureFrame:sampleBuffer];
 }
 
 @end

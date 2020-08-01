@@ -8,10 +8,12 @@
 
 #import "ViewController.h"
 #import "CaptureSession.h"
+#import "MobileUNetProcessor.h"
 
-@interface ViewController () <CaptureSessionDelegate>
+@interface ViewController () <MobileUnetProcessorDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) CaptureSession *captureSession;
+@property (strong, nonatomic) MobileUNetProcessor *processor;
 @end
 
 @implementation ViewController
@@ -25,7 +27,8 @@
     self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     
     // setup capture session
-    self.captureSession = [[CaptureSession alloc] initWithDelegate:self];
+    self.processor = [[MobileUNetProcessor alloc] initWithDelegate:self];
+    self.captureSession = [[CaptureSession alloc] initWithDelegate:self.processor];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -38,18 +41,20 @@
     [self.captureSession endSession];
 }
 
-#pragma mark - Capture Session Delegate
+#pragma mark - Processor Delegate
 
-- (CALayer *) rootLayer {
-    return self.view.layer;
-}
-
-- (CGRect) rootFrame {
-    return self.imageView.frame;
-}
-
-- (void) captureSession:(CaptureSession *)captureSession didCaptureFrame:(UIImage *)frame {
+- (void) processor:(MobileUNetProcessor *) processor didProcessFrame:(UIImage *)frame {
     self.imageView.image = frame;
+}
+
+#pragma mark - Prevent rotation
+
+- (BOOL) shouldAutorotate {
+    return NO;
+}
+
+- (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationPortrait;
 }
 
 @end

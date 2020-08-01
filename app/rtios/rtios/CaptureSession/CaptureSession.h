@@ -8,16 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
-#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class CaptureSession;
 
 @protocol CaptureSessionDelegate <NSObject>
-- (CALayer *) rootLayer;
-- (CGRect) rootFrame;
-- (void) captureSession:(CaptureSession *)captureSession didCaptureFrame:(UIImage *)frame;
+- (void) captureSession:(CaptureSession *)captureSession didCaptureFrame:(CMSampleBufferRef)frame;
 @end
 
 @interface CaptureSession : NSObject
