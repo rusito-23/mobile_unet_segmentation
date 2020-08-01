@@ -32,12 +32,16 @@
     int height = (int)CVPixelBufferGetHeight(buffer);
 
     // create the cv mat
-    cv::Mat image;
-    image.create(height, width, CV_8UC4);
-    memcpy(image.data, bufPtr, width * height * 4);
+    cv::Mat mat;
+    mat.create(height, width, CV_8UC4);
+    memcpy(mat.data, bufPtr, width * height * 4);
     CVPixelBufferUnlockBaseAddress(buffer, 0);
+    
+    // convert to cv standard
+    cv::transpose(mat, mat);
+    cvtColor(mat, mat, cv::COLOR_RGBA2BGRA);
 
-    return image;
+    return mat;
 }
 
 + (UIImage *) imageFromMat:(cv::Mat) mat {
