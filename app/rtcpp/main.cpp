@@ -25,8 +25,6 @@ int main(int argc, char* argv[]) {
 
   // arguments
   const char *model_file;
-  bool show_raw_mask;
-  bool show_blurred_mask;
   int width;
   int height;
   string background_file;
@@ -40,8 +38,6 @@ int main(int argc, char* argv[]) {
     cxxopts::Options options("RTCPP", "Realtime portrait segmentation test");
     options.add_options()
       ("model-file", ".tflite file model.", cxxopts::value<string>())
-      ("show-raw-mask", "flag to show raw mask (bool)", cxxopts::value<bool>()->default_value("false"))
-      ("show-blurred-mask", "flag to show the blurred mask (bool)", cxxopts::value<bool>()->default_value("false"))
       ("width", "Preview width", cxxopts::value<int>()->default_value("600"))
       ("height", "Preview height", cxxopts::value<int>()->default_value("400"))
       ("background", "Background replacement", cxxopts::value<string>()->default_value("NO"))
@@ -52,23 +48,19 @@ int main(int argc, char* argv[]) {
     // retrieve arguments
     title = results["model-file"].as<string>();
     model_file = title.c_str();
-    show_raw_mask = results["show-raw-mask"].as<bool>();
-    show_blurred_mask = results["show-blurred-mask"].as<bool>();
     width = results["width"].as<int>();
     height = results["height"].as<int>();
     background_file = results["background"].as<string>();
     thres = results["threshold"].as<float>();
 
     cout << "Model file: " << model_file << endl
-         << "Show raw mask: " << show_raw_mask << endl
-         << "Show blurred mask: " << show_blurred_mask << endl
          << "Width: " << width << endl
          << "Height: " << height << endl
          << "Segmentation threshold: " << thres << endl;
 
     // initialize utils
     predictor = new MaskPredictor(model_file, thres);
-    transformer = new Transformer(cvSize(width, height), show_raw_mask, show_blurred_mask);
+    transformer = new Transformer();
 
     // background initialization
     has_background = strcmp(background_file.c_str(), "NO") != 0;
@@ -120,6 +112,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Display the resulting image
+    cv::resize(output_image, output_image, cvSize(width, height));
     cv::imshow(title, output_image);
 
     // Press  ESC on keyboard to exit

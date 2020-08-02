@@ -1,5 +1,7 @@
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 #include "predict.h"
-#include <iostream>
+#pragma clang pop
 
 
 // TODO: handle errors
@@ -49,12 +51,12 @@ void MaskPredictor::preprocess(cv::Mat im, float* input_tensor) {
 cv::Mat MaskPredictor::postprocess(float *out) {
     // round using threshold
     for (int i = 0; i < OUT_TENSOR_SIZE; i++) {
-        out[i] = out[i] > thres ? 0.0f : 255.0f;
+        out[i] = out[i] > thres ? 0 : 255;
     }
 
     // create image and convert to 3 channel image
     cv::Mat mask = cv::Mat(OUT_SIZE, OUT_SIZE, CV_32FC1, out);
-    cvtColor(mask, mask, CV_GRAY2BGR);
+    cvtColor(mask, mask, cv::COLOR_GRAY2BGR);
 
     return mask;
 }

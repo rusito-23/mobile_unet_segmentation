@@ -8,8 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		785D304C24D4D338003A1A94 /* CaptureSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 785D304B24D4D338003A1A94 /* CaptureSession.m */; };
-		785D305024D4E122003A1A94 /* UIImage+Conversions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 785D304F24D4E122003A1A94 /* UIImage+Conversions.mm */; };
+		785D305024D4E122003A1A94 /* ImageConvert.mm in Sources */ = {isa = PBXBuildFile; fileRef = 785D304F24D4E122003A1A94 /* ImageConvert.mm */; };
 		785D305424D4F27B003A1A94 /* MobileUNetProcessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 785D305324D4F27B003A1A94 /* MobileUNetProcessor.mm */; };
+		789575BE24D509ED0031FAE4 /* predict.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789575BA24D509ED0031FAE4 /* predict.cpp */; };
+		789575BF24D509ED0031FAE4 /* transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 789575BC24D509ED0031FAE4 /* transform.cpp */; };
+		789575C124D50F930031FAE4 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 789575C024D50F930031FAE4 /* Accelerate.framework */; };
+		789575CA24D51A6F0031FAE4 /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 789575C924D51A6F0031FAE4 /* model.tflite */; };
 		78CCB84F24D4CD4100DCD603 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CCB84E24D4CD4100DCD603 /* AppDelegate.m */; };
 		78CCB85224D4CD4100DCD603 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CCB85124D4CD4100DCD603 /* SceneDelegate.m */; };
 		78CCB85524D4CD4100DCD603 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 78CCB85424D4CD4100DCD603 /* ViewController.m */; };
@@ -26,10 +30,18 @@
 		63129784ED0BA99B57201CDC /* Pods-rtios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rtios.debug.xcconfig"; path = "Target Support Files/Pods-rtios/Pods-rtios.debug.xcconfig"; sourceTree = "<group>"; };
 		785D304A24D4D338003A1A94 /* CaptureSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CaptureSession.h; sourceTree = "<group>"; };
 		785D304B24D4D338003A1A94 /* CaptureSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CaptureSession.m; sourceTree = "<group>"; };
-		785D304E24D4E122003A1A94 /* UIImage+Conversions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Conversions.h"; sourceTree = "<group>"; };
-		785D304F24D4E122003A1A94 /* UIImage+Conversions.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "UIImage+Conversions.mm"; sourceTree = "<group>"; };
+		785D304E24D4E122003A1A94 /* ImageConvert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageConvert.h; sourceTree = "<group>"; };
+		785D304F24D4E122003A1A94 /* ImageConvert.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ImageConvert.mm; sourceTree = "<group>"; };
 		785D305224D4F27B003A1A94 /* MobileUNetProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MobileUNetProcessor.h; sourceTree = "<group>"; };
 		785D305324D4F27B003A1A94 /* MobileUNetProcessor.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MobileUNetProcessor.mm; sourceTree = "<group>"; };
+		789575B924D509ED0031FAE4 /* predict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = predict.h; sourceTree = "<group>"; };
+		789575BA24D509ED0031FAE4 /* predict.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = predict.cpp; sourceTree = "<group>"; };
+		789575BC24D509ED0031FAE4 /* transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = transform.cpp; sourceTree = "<group>"; };
+		789575BD24D509ED0031FAE4 /* transform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transform.h; sourceTree = "<group>"; };
+		789575C024D50F930031FAE4 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		789575C324D519B50031FAE4 /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		789575C924D51A6F0031FAE4 /* model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; name = model.tflite; path = ../../../../gdrive/BackSeg/keras_runs/v001/model.tflite; sourceTree = "<group>"; };
+		789575CB24D522C60031FAE4 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		78CCB84A24D4CD4100DCD603 /* rtios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rtios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78CCB84D24D4CD4100DCD603 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		78CCB84E24D4CD4100DCD603 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -50,6 +62,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				823858936EDA0115280C9C20 /* libPods-rtios.a in Frameworks */,
+				789575C124D50F930031FAE4 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +72,7 @@
 		63E012234E6432AC54B81B87 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				789575C024D50F930031FAE4 /* Accelerate.framework */,
 				0239B58883545D64118A71B5 /* libPods-rtios.a */,
 			);
 			name = Frameworks;
@@ -122,8 +136,10 @@
 		785D304D24D4E0DE003A1A94 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				785D304E24D4E122003A1A94 /* UIImage+Conversions.h */,
-				785D304F24D4E122003A1A94 /* UIImage+Conversions.mm */,
+				785D304E24D4E122003A1A94 /* ImageConvert.h */,
+				785D304F24D4E122003A1A94 /* ImageConvert.mm */,
+				789575C324D519B50031FAE4 /* Utils.h */,
+				789575CB24D522C60031FAE4 /* Constants.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -135,6 +151,42 @@
 				785D305324D4F27B003A1A94 /* MobileUNetProcessor.mm */,
 			);
 			path = MobileUNetProcessor;
+			sourceTree = "<group>";
+		};
+		789575B724D509ED0031FAE4 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				789575B824D509ED0031FAE4 /* predict */,
+				789575BB24D509ED0031FAE4 /* transform */,
+			);
+			name = core;
+			path = ../../core;
+			sourceTree = "<group>";
+		};
+		789575B824D509ED0031FAE4 /* predict */ = {
+			isa = PBXGroup;
+			children = (
+				789575B924D509ED0031FAE4 /* predict.h */,
+				789575BA24D509ED0031FAE4 /* predict.cpp */,
+			);
+			path = predict;
+			sourceTree = "<group>";
+		};
+		789575BB24D509ED0031FAE4 /* transform */ = {
+			isa = PBXGroup;
+			children = (
+				789575BC24D509ED0031FAE4 /* transform.cpp */,
+				789575BD24D509ED0031FAE4 /* transform.h */,
+			);
+			path = transform;
+			sourceTree = "<group>";
+		};
+		789575C624D51A540031FAE4 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				789575C924D51A6F0031FAE4 /* model.tflite */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		78CCB84124D4CD4100DCD603 = {
@@ -158,6 +210,8 @@
 		78CCB84C24D4CD4100DCD603 /* rtios */ = {
 			isa = PBXGroup;
 			children = (
+				789575C624D51A540031FAE4 /* Model */,
+				789575B724D509ED0031FAE4 /* core */,
 				785D304D24D4E0DE003A1A94 /* Helpers */,
 				785D305124D4F25D003A1A94 /* MobileUNetProcessor */,
 				785D304924D4D315003A1A94 /* CaptureSession */,
@@ -240,6 +294,7 @@
 				78CCB85D24D4CD4200DCD603 /* LaunchScreen.storyboard in Resources */,
 				78CCB85A24D4CD4200DCD603 /* Assets.xcassets in Resources */,
 				78CCB85824D4CD4100DCD603 /* Main.storyboard in Resources */,
+				789575CA24D51A6F0031FAE4 /* model.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,11 +332,13 @@
 			files = (
 				78CCB85524D4CD4100DCD603 /* ViewController.m in Sources */,
 				78CCB84F24D4CD4100DCD603 /* AppDelegate.m in Sources */,
+				789575BF24D509ED0031FAE4 /* transform.cpp in Sources */,
 				785D304C24D4D338003A1A94 /* CaptureSession.m in Sources */,
 				78CCB86024D4CD4200DCD603 /* main.m in Sources */,
 				78CCB85224D4CD4100DCD603 /* SceneDelegate.m in Sources */,
-				785D305024D4E122003A1A94 /* UIImage+Conversions.mm in Sources */,
+				785D305024D4E122003A1A94 /* ImageConvert.mm in Sources */,
 				785D305424D4F27B003A1A94 /* MobileUNetProcessor.mm in Sources */,
+				789575BE24D509ED0031FAE4 /* predict.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,10 +488,19 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_LDFLAGS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../tensorflow/tensorflow/lite/tools/make/gen/ios_arm64/lib/";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l",
+					"tensorflow-lite",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rusito23.rtios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../tensorflow/",
+					"$(PROJECT_DIR)/../tensorflow/bazel-bin/external/flatbuffers/_virtual_includes/flatbuffers/",
+				);
 			};
 			name = Debug;
 		};
@@ -452,10 +518,19 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_LDFLAGS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../tensorflow/tensorflow/lite/tools/make/gen/ios_arm64/lib/";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l",
+					"tensorflow-lite",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rusito23.rtios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/../tensorflow/",
+					"$(PROJECT_DIR)/../tensorflow/bazel-bin/external/flatbuffers/_virtual_includes/flatbuffers/",
+				);
 			};
 			name = Release;
 		};

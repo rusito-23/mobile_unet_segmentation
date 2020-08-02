@@ -44,14 +44,17 @@
     
     if ([self.session canAddOutput:videoOutput]) {
         [self.session addOutput:videoOutput];
+        NSLog(@"[Capture Session] did add video output");
     }
     
     if ([self.session canAddInput:deviceInput]) {
         [self.session addInput:deviceInput];
+        NSLog(@"[Capture Session] did add device input");
     }
     
     // start session
     [self.session startRunning];
+    NSLog(@"[Capture Session] did start running");
 }
 
 - (void) endSession {

@@ -1,22 +1,12 @@
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdocumentation"
 #include "transform.h"
-
-
-Transformer::Transformer(CvSize nSize,
-                         bool show_raw_mask,
-                         bool show_blurred_mask):
-                         size(nSize),
-                         show_raw_mask(show_raw_mask),
-                         show_blurred_mask(show_blurred_mask){}
+#pragma clang pop
 
 
 cv::Mat Transformer::blur_background(cv::Mat image, cv::Mat mask) {
-  // resize
-  cv::resize(image, image, size);
-  cv::resize(mask, mask, size);
-
-  if (show_raw_mask) {
-    cv::imshow("Raw mask", mask);
-  }
+  // resize mask
+  cv::resize(mask, mask, image.size());
 
   cv::Mat result;
   cv::Mat blured;
@@ -29,10 +19,6 @@ cv::Mat Transformer::blur_background(cv::Mat image, cv::Mat mask) {
   // blur both original image & mask (to get softer borders)
   cv::blur(image, blured, cv::Size(91,91));
   cv::blur(mask, mask, cv::Size(31,31));
-
-  if (show_blurred_mask) {
-    cv::imshow("Blurred mask", mask);
-  }
 
   cv::Mat M1, M2, M3;
 
@@ -52,10 +38,6 @@ cv::Mat Transformer::replace_background(cv::Mat image, cv::Mat mask, cv::Mat bac
   cv::resize(mask, mask, size);
   cv::resize(background, background, size);
 
-  if (show_raw_mask) {
-    cv::imshow("Raw mask", mask);
-  }
-
   cv::Mat result;
 
   // convert all images into 32bit floats
@@ -66,10 +48,6 @@ cv::Mat Transformer::replace_background(cv::Mat image, cv::Mat mask, cv::Mat bac
 
   // blur mask (to get softer borders)
   cv::blur(mask, mask, cv::Size(31,31));
-
-  if (show_blurred_mask) {
-    cv::imshow("Blurred mask", mask);
-  }
 
   cv::Mat M1, M2, M3;
 

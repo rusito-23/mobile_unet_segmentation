@@ -1,12 +1,12 @@
 //
-//  UIImage+SampleBuffer.m
+//  ImageConvert.m
 //  rtios
 //
 //  Created by Igor on 31/07/2020.
 //  Copyright © 2020 rusito23. All rights reserved.
 //
 
-#import "UIImage+Conversions.h"
+#import "ImageConvert.h"
 
 #ifdef __cplusplus
 #pragma clang diagnostic push
@@ -16,10 +16,10 @@
 #pragma clang pop
 #endif
 
-@implementation UIImage (Conversions)
+@implementation ImageConvert
 #ifdef __cplusplus
 
-+ (cv::Mat) matFromSampleBuffer:(CMSampleBufferRef)sampleBuffer {
++ (cv::Mat) cvMatFromSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     // get buffer
     CVImageBufferRef buffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     CVPixelBufferLockBaseAddress(buffer, 0);
@@ -44,23 +44,29 @@
     return mat;
 }
 
-+ (UIImage *) imageFromMat:(cv::Mat) mat {
++ (UIImage *) uiImageFromCvMat:(cv::Mat)mat {
+    return [ImageConvert uiImageFromCvMat:mat withGrayScale:NO];
+}
+
++ (UIImage *) uiImageFromGrayCvMat:(cv::Mat)mat {
+    return [ImageConvert uiImageFromCvMat:mat withGrayScale:YES];
+}
+
++ (UIImage *) uiImageFromCvMat:(cv::Mat)mat withGrayScale:(BOOL) grayScale {
     // setup initial data
     NSData *data = [NSData dataWithBytes:mat.data length:mat.elemSize()*mat.total()];
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGColorSpaceRef colorSpace = grayScale ? CGColorSpaceCreateDeviceGray() : CGColorSpaceCreateDeviceRGB();
     CGDataProviderRef provider = CGDataProviderCreateWithCFData((__bridge CFDataRef)data);
 
     // create cgimage
     CGImageRef imageRef = CGImageCreate(mat.cols,
                                         mat.rows,
-                                        8,
-                                        8 * mat.elemSize(),
+                                        8, 8 * mat.elemSize(),
                                         mat.step[0],
                                         colorSpace,
-                                        kCGImageAlphaNoneSkipLast|kCGBitmapByteOrderDefault,
+                                        kCGImageAlphaNoneSkipLast,
                                         provider,
-                                        NULL,
-                                        false,
+                                        NULL, true,
                                         kCGRenderingIntentDefault);
 
     // create uiimage from cgimage

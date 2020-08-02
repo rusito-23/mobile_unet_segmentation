@@ -18,11 +18,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIImage (Conversions)
+@interface ImageConvert: NSObject
 #ifdef __cplusplus
 
-+ (cv::Mat) matFromSampleBuffer:(CMSampleBufferRef) sampleBuffer;
-+ (UIImage *) imageFromMat:(cv::Mat) mat;
++ (cv::Mat) cvMatFromSampleBuffer:(CMSampleBufferRef) sampleBuffer;
++ (UIImage *) uiImageFromCvMat:(cv::Mat) mat;
++ (UIImage *) uiImageFromGrayCvMat:(cv::Mat)mat;
 
 #endif
 @end

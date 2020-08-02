@@ -1,7 +1,7 @@
 
 # COMPILER + FLAGS + STD
 CC = g++
-CFLAGS = -Werror -Wall
+CFLAGS = -Werror -Wall -Wno-unknown-pragmas
 STD = c++11
 
 # SOURCE OPTS
@@ -11,7 +11,7 @@ SRC = main.cpp
 # CORE OPTS
 CORE_SRC = ../core/transform/transform.cpp ../core/predict/predict.cpp
 CORE_INCLUDE = ../core
-CORE_FLAGS = -I${CORE_INCLUDE}
+CORE_FLAGS = -I${CORE_INCLUDE} ${CORE_SRC}
 
 # EXTERNAL DEPENDENCIES
 PKG_LIBS = opencv4 libzip
@@ -25,7 +25,7 @@ TFLITE_FLAGS = -I${TFLITE_INCLUDE} -L${TFLITE_LIB} -l${TFLITE}
 
 
 all:
-	${CC} ${CFLAGS} -std=${STD} ${SOURCE} -o ${TARGET} \
+	${CC} ${CFLAGS} -std=${STD} ${SRC} -o ${TARGET} \
 	    ${PKG_FLAGS} \
 	    ${CORE_FLAGS} \
 	    ${TFLITE_FLAGS}
