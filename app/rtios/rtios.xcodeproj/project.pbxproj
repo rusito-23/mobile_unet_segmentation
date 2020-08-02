@@ -501,6 +501,7 @@
 					"$(PROJECT_DIR)/../tensorflow/",
 					"$(PROJECT_DIR)/../tensorflow/bazel-bin/external/flatbuffers/_virtual_includes/flatbuffers/",
 				);
+				VALID_ARCHS = "arm64 arm64e";
 			};
 			name = Debug;
 		};
@@ -531,6 +532,7 @@
 					"$(PROJECT_DIR)/../tensorflow/",
 					"$(PROJECT_DIR)/../tensorflow/bazel-bin/external/flatbuffers/_virtual_includes/flatbuffers/",
 				);
+				VALID_ARCHS = "arm64 arm64e";
 			};
 			name = Release;
 		};

@@ -25,13 +25,32 @@
 #define OUT_CHANNELS 1
 #define OUT_TENSOR_SIZE OUT_SIZE * OUT_SIZE * OUT_CHANNELS
 
-// mask predictor
-
+/**
+ Mask Predictor
+ Handles the communication with the Tensorflow Lite API
+ and the pre/post-processing needed for the given OpenCV Mat.
+ */
 class MaskPredictor {
-
 public:
-    cv::Mat predict_mask (cv::Mat im);
+
+    /**
+     Constructor
+     
+     @param model_file String indicating the `tflite` model path.
+     @param thres Threshold used to compute the B&W mask from the given probabilites.
+     */
     MaskPredictor(const char* model_file, float thres);
+
+    /**
+     Predict a mask.
+     
+     Pre-processes a given mat and passes it through the net.
+     Then, post-processes the given probabilities into a Mat.
+     
+     @param im OpenCV Mat - BGR - 8UC3
+     @returns Mask in OpenCV Mat format - BGR - 8UC3 (contains 0's and 255's only)
+     */
+    cv::Mat predict_mask (cv::Mat im);
 
 private:
     float thres;

@@ -88,6 +88,8 @@ void dispatch_on_background(dispatch_block_t block) {
     });
 }
 
+#pragma mark - Pre/Post Proccessing
+
 - (void) preProcess:(cv::Mat) mat {
     cvtColor(mat, mat, cv::COLOR_RGBA2BGR);
 }
