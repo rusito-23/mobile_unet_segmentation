@@ -3,6 +3,12 @@
 
 Portrait segmentation in Keras, using [divamgupta's segmentation models](https://github.com/divamgupta/image-segmentation-keras) source code. Aiming to perform real time segmentation in mobile and desktop devices, using a common source code written in C++ with Tensorflow Lite.
 
+## Demo
+
+| RTCPP (MBP 2017 - 2,9 GHz Quad-Core Intel Core i7) | RTIOS (iPhone 8) |
+| --- | --- |
+| ![rtcpp demo](./demo/demo_rtcpp.gif) | ![rtios demo](./demo/demo_rtios.gif) |
+
 ## Content
 
 - [Train](#train)
