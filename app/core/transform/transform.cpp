@@ -1,6 +1,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
 #include "transform.h"
+#include <iostream>
 #pragma clang pop
 
 
@@ -28,6 +29,7 @@ cv::Mat Transformer::blur_background(cv::Mat image, cv::Mat mask) {
     cv::multiply(mask, blured, M3);
     cv::add(M2, M3, result);
     
+    result.convertTo(result, CV_8UC3, 255.0);
     return result;
 }
 

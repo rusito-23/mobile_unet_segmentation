@@ -65,9 +65,7 @@ void dispatch_on_background(dispatch_block_t block) {
     
     // convert to opencv
     cv::Mat target = [ImageConvert cvMatFromSampleBuffer:frame];
-    
-    // preprocess
-    [self preProcess:target];
+    cvtColor(target, target, cv::COLOR_RGBA2BGR);
     
     __weak typeof(self) weakSelf = self;
     dispatch_on_background(^{
@@ -76,7 +74,7 @@ void dispatch_on_background(dispatch_block_t block) {
         // process
         cv::Mat mask = self.predictor->predict_mask(target);
         cv::Mat result = self.transformer->blur_background(target, mask);
-        [self postProcess:result];
+        cvtColor(result, result, cv::COLOR_BGR2RGBA);
         
         // display on main thread
         dispatch_on_main(^{
@@ -86,16 +84,6 @@ void dispatch_on_background(dispatch_block_t block) {
             [self.delegate processor:self didProcessFrame:im];
         });
     });
-}
-
-#pragma mark - Pre/Post Proccessing
-
-- (void) preProcess:(cv::Mat) mat {
-    cvtColor(mat, mat, cv::COLOR_RGBA2BGR);
-}
-
-- (void) postProcess:(cv::Mat) mat {
-    cvtColor(mat, mat, cv::COLOR_BGR2RGBA);
 }
 
 @end
