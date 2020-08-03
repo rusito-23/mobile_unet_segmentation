@@ -57,7 +57,7 @@ void dispatch_on_background(dispatch_block_t block) {
         self.predictor = new MaskPredictor{modelPath.UTF8String, kThreshold};
         self.transformer = new Transformer();
         self.mode = MUBackgroundBlurMode;
-        self.background = cv::Mat::zeros(200, 200, CV_32FC3);
+        self.background = cv::Mat::ones(100, 100, CV_32FC3)*50;
     }
     return self;
 }

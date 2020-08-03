@@ -48,7 +48,7 @@ cv::Mat Transformer::replace_background(cv::Mat image, cv::Mat mask, cv::Mat bac
     background.convertTo(background, CV_32FC3, 1.0/255.0);
     
     // blur mask (to get softer borders)
-    cv::blur(mask, mask, cv::Size(31,31));
+    // cv::blur(mask, mask, cv::Size(31,31));
     
     cv::Mat M1, M2, M3;
     
