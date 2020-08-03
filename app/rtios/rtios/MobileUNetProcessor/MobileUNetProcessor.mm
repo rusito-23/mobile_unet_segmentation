@@ -22,6 +22,7 @@
 @property (nonatomic) MaskPredictor *predictor;
 @property (nonatomic) Transformer *transformer;
 @property BOOL processing;
+@property cv::Mat background;
 @end
 
 @implementation MobileUNetProcessor
@@ -55,6 +56,8 @@ void dispatch_on_background(dispatch_block_t block) {
         self.delegate = delegate;
         self.predictor = new MaskPredictor{modelPath.UTF8String, kThreshold};
         self.transformer = new Transformer();
+        self.mode = MUBackgroundBlurMode;
+        self.background = cv::Mat::zeros(200, 200, CV_32FC3);
     }
     return self;
 }
@@ -73,7 +76,7 @@ void dispatch_on_background(dispatch_block_t block) {
         
         // process
         cv::Mat mask = self.predictor->predict_mask(target);
-        cv::Mat result = self.transformer->blur_background(target, mask);
+        cv::Mat result = [self processWithTarget:target andMask:mask];
         cvtColor(result, result, cv::COLOR_BGR2RGBA);
         
         // display on main thread
@@ -84,6 +87,13 @@ void dispatch_on_background(dispatch_block_t block) {
             [self.delegate processor:self didProcessFrame:im];
         });
     });
+}
+
+- (cv::Mat) processWithTarget:(cv::Mat) target andMask:(cv::Mat) mask {
+    switch (self.mode) {
+        case MUBackgroundBlurMode: return self.transformer->blur_background(target, mask);
+        case MUReplaceBackgroundMode: return self.transformer->replace_background(target, mask, self.background);
+    }
 }
 
 @end

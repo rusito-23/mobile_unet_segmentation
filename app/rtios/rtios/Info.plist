@@ -62,5 +62,7 @@
 	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to the camera to take frames.</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Access to the media to replace background.</string>
 </dict>
 </plist>

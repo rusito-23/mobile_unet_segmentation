@@ -47,9 +47,6 @@ public:
      @param background OpenCV Mat containing background to perform replacement. BGR - 8CU3
      */
     cv::Mat replace_background(cv::Mat image, cv::Mat mask, cv::Mat background);
-
-private:
-    CvSize size;
 };
 
 #endif

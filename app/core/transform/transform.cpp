@@ -36,9 +36,8 @@ cv::Mat Transformer::blur_background(cv::Mat image, cv::Mat mask) {
 
 cv::Mat Transformer::replace_background(cv::Mat image, cv::Mat mask, cv::Mat background) {
     // resize
-    cv::resize(image, image, size);
-    cv::resize(mask, mask, size);
-    cv::resize(background, background, size);
+    cv::resize(mask, mask, image.size());
+    cv::resize(background, background, image.size());
     
     cv::Mat result;
     

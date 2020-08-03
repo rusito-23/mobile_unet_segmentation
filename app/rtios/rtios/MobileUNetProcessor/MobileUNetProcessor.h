@@ -12,6 +12,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef enum : NSUInteger {
+    MUReplaceBackgroundMode,
+    MUBackgroundBlurMode,
+} MUProcessorMode;
+
 @class MobileUNetProcessor;
 
 @protocol MobileUnetProcessorDelegate
@@ -19,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface MobileUNetProcessor : NSObject <CaptureSessionDelegate>
+@property MUProcessorMode mode;
 
 - (id) initWithDelegate:(NSObject<MobileUnetProcessorDelegate> *)delegate;
 - (void) captureSession:(CaptureSession *)captureSession didCaptureFrame:(CMSampleBufferRef)frame;

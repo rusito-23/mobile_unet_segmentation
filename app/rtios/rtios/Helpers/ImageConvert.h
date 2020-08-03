@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (cv::Mat) cvMatFromSampleBuffer:(CMSampleBufferRef) sampleBuffer;
 + (UIImage *) uiImageFromCvMat:(cv::Mat) mat;
 + (UIImage *) uiImageFromGrayCvMat:(cv::Mat)mat;
++ (cv::Mat) cvMatFromUIImage:(UIImage *)image;
 
 #endif
 @end
