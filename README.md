@@ -5,13 +5,9 @@ Portrait segmentation in Keras, using [divamgupta's segmentation models](https:/
 
 ## Demo
 
-| RTCPP (MBP 2017 - 2,9 GHz Quad-Core Intel Core i7) |
-| :---: |
-| ![rtcpp demo](./demo/demo_rtcpp.gif) |
-
-| RTIOS (iPhone 8) |
-| :---: |
-| ![rtios demo](./demo/demo_rtios.gif) |
+| RTCPP (MBP 2017 - 2,9 GHz Quad-Core Intel Core i7) | RTIOS (iPhone 8) |
+| :---: | :---: |
+| ![rtcpp demo](./demo/demo_rtcpp.gif) | ![rtios demo](./demo/demo_rtios.gif) |
 
 ## Content
 
