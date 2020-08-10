@@ -17,6 +17,7 @@ Portrait segmentation in Keras, using [divamgupta's segmentation models](https:/
     - [RTCPP](#rtcpp)
     - [RTPY](#rtpy)
     - [RTIOS](#rtios)
+- [Future Work](#todo)
 
 
 ## Train
@@ -82,9 +83,11 @@ Python application to test the performance of the raw Keras model (without TFLit
 iOS application that uses the [Core](#core) to perform background segmentation in iOS devices. This application was set to work with `arch64` only.
 It uses OpenCV, using the Cocoapods dependency manager. To set up, run `pod install` in `rtios` root folder. The `model.tflite` file needs to be copied into `rtios/rtios` folder as well. 
 
-### TODO's
+### TODO
 
-- error handling in the Core (use custom exceptions?)
-- background replacement for iOS app
-- precict the mask in background, but blur in main thread
-- maybe perform the thread handling in C++
+- CORE error handling 
+- Improve FPS:
+    - don't blur using the real frame size (~1024). The blur should be made using the frame downscaled to ~512
+    - don't perform blur & mask prediction in same thread, instead, save predicted mask and blur in separated thread
+- perform the thread handling in C++ (is this possible?)
+- Generate a new synthetic dataset (maybe MaskRCNN) to get better background replacement results (generate dataset using selfies and videoconference scenarios)
