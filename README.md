@@ -45,6 +45,7 @@ The dataset used is a frankestein made from the [supervisely dataset](http://sup
 
 The model consists of a MobileNet backbone and a UNet head. The MobileNet is prepared using fchollet's pretrained weights.
 The full-model weights, along with corresponding output information, can be found in [here](https://drive.google.com/drive/folders/1fvmbBIBeCga2cKpGz47mRe98OCkQ_TOF?usp=sharing).
+This folder contains the pretrained weights for keras and tflite to test the realtime applications. These need to be located in `models/model.h5` or `models/model.tflite` to be used by the applications.
 
 ## Real Time Applications
 
@@ -52,15 +53,11 @@ As the idea is to mantain a model that can run in real-time in several devices, 
 
 ### Tensorflow Lite Compile
 
-The Core and all depending applications need Tensorflow Lite library to run (used tag v1.13x). In order to achieve this, Tensorflow Lite must be compiled from source, here are the steps:
+The Core and all depending applications need Tensorflow Lite library to run. In order to achieve this, Tensorflow Lite must be compiled from source, therefore, the tensorflow dependency is set as a submodule (v1.13x). To compile, use:
 
-- Clone the tensorflow repository, replacing the [tensorflow folder](./app/tensorflow).
-```
-rm -rf app/tensorflow
-git clone https://github.com/tensorflow/tensorflow.git app/tensorflow
-```
-- Run the corresponding scripts to generate the neccesary libraries, located in `./tensorflow/lite/tools/make`. I used `build_lib.sh` and `build_ios_universal_lib.sh`.
-
+- `./tensorflow/lite/tools/make/download_dependencies.sh`
+- `./tensorflow/lite/tools/make/build_ios_universal_lib.sh` to build for iOS
+- `./tensorflow/lite/tools/make/build_lib.sh` to build for the current arch (tried on macOS)
 
 ### Core
 

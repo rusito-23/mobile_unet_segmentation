@@ -4,7 +4,9 @@ Uses the `fchollet` pretrained weights on ImageNet.
 Refactored from: https://github.com/divamgupta/image-segmentation-keras
 """
 
+import tensorflow.keras.backend as K
 from tensorflow.keras.models import Model
+from tensorflow.keras.utils import get_file
 from tensorflow.keras.layers import (
     ZeroPadding2D,
     Conv2D,
@@ -16,8 +18,6 @@ from tensorflow.keras.layers import (
     Reshape,
     concatenate
 )
-import tensorflow.keras.backend as K
-from tensorflow.keras.utils import get_file
 
 
 DATA_FORMAT = 'channels_last'
@@ -28,57 +28,86 @@ def relu6(x):
     return K.relu(x, max_value=6)
 
 
-def _conv_block(inputs,
-                filters,
-                alpha,
-                kernel=(3, 3),
-                strides=(1, 1)):
+def _conv_block(
+        inputs,
+        filters,
+        alpha,
+        kernel=(3, 3),
+        strides=(1, 1)
+):
     """ Convolutional Block """
     filters = int(filters * alpha)
-    x = ZeroPadding2D(padding=(1, 1), name='conv1_pad',
-                      data_format=DATA_FORMAT)(inputs)
-    x = Conv2D(filters, kernel, data_format=DATA_FORMAT,
-               padding='valid',
-               use_bias=False,
-               strides=strides,
-               name='conv1')(x)
+    x = ZeroPadding2D(
+            padding=(1, 1),
+            name='conv1_pad',
+            data_format=DATA_FORMAT
+    )(inputs)
+    x = Conv2D(
+            filters,
+            kernel,
+            data_format=DATA_FORMAT,
+            padding='valid',
+            use_bias=False,
+            strides=strides,
+            name='conv1'
+    )(x)
     x = BatchNormalization(axis=MERGE_AXIS, name='conv1_bn')(x)
     return Activation(relu6, name='conv1_relu')(x)
 
 
-def _depthwise_block(inputs,
-                     pointwise_conv_filters,
-                     alpha,
-                     depth_multiplier=1,
-                     strides=(1, 1),
-                     block=1):
+def _depthwise_block(
+        inputs,
+        pointwise_conv_filters,
+        alpha,
+        depth_multiplier=1,
+        strides=(1, 1),
+        block=1
+):
     """ Deptwise Convolutional Block """
     pointwise_conv_filters = int(pointwise_conv_filters * alpha)
-    x = ZeroPadding2D((1, 1), data_format=DATA_FORMAT,
-                      name='conv_pad_%d' % block)(inputs)
-    x = DepthwiseConv2D((3, 3), data_format=DATA_FORMAT,
-                        padding='valid',
-                        depth_multiplier=depth_multiplier,
-                        strides=strides,
-                        use_bias=False,
-                        name='conv_dw_%d' % block)(x)
+    x = ZeroPadding2D(
+            (1, 1),
+            data_format=DATA_FORMAT,
+            name='conv_pad_%d' % block
+    )(inputs)
+    x = DepthwiseConv2D(
+            (3, 3), data_format=DATA_FORMAT,
+            padding='valid',
+            depth_multiplier=depth_multiplier,
+            strides=strides,
+            use_bias=False,
+            name='conv_dw_%d' % block
+    )(x)
     x = BatchNormalization(
-        axis=MERGE_AXIS, name='conv_dw_%d_bn' % block)(x)
-    x = Activation(relu6, name='conv_dw_%d_relu' % block)(x)
-    x = Conv2D(pointwise_conv_filters, (1, 1), data_format=DATA_FORMAT,
-               padding='same',
-               use_bias=False,
-               strides=(1, 1),
-               name='conv_pw_%d' % block)(x)
-    x = BatchNormalization(axis=MERGE_AXIS,
-                           name='conv_pw_%d_bn' % block)(x)
+        axis=MERGE_AXIS,
+        name='conv_dw_%d_bn' % block
+    )(x)
+    x = Activation(
+            relu6,
+            name='conv_dw_%d_relu' % block
+    )(x)
+    x = Conv2D(
+            pointwise_conv_filters,
+            (1, 1),
+            data_format=DATA_FORMAT,
+            padding='same',
+            use_bias=False,
+            strides=(1, 1),
+            name='conv_pw_%d' % block
+    )(x)
+    x = BatchNormalization(
+            axis=MERGE_AXIS,
+            name='conv_pw_%d_bn' % block
+    )(x)
     return Activation(relu6, name='conv_pw_%d_relu' % block)(x)
 
 
-def MobileNet(in_size,
-              weights_url,
-              alpha=1.0,
-              depth_mul=1):
+def MobileNet(
+        in_size,
+        weights_url,
+        alpha=1.0,
+        depth_mul=1
+):
     """ MobileNet Encoder """
 
     # check data format
@@ -108,8 +137,9 @@ def MobileNet(in_size,
     f5 = x
 
     # load pretrained weights
-    weights_path = get_file('mobilenet_imagenet_weights', weights_url)
-    Model(im_input, x).load_weights(weights_path)
+    if weights_url is not None:
+        weights_path = get_file('mobilenet_imagenet_weights', weights_url)
+        Model(im_input, x).load_weights(weights_path)
 
     return im_input, [f1, f2, f3, f4, f5]
 
@@ -132,10 +162,12 @@ def SegmentationModel(i, o):
     return model
 
 
-def MobileUNet(n_classes,
-               in_size,
-               out_size,
-               weights_url):
+def MobileUNet(
+        n_classes,
+        in_size,
+        out_size,
+        weights_url
+):
     """
     Segmentation Model
         - MobileNet Backbone
@@ -165,8 +197,7 @@ def MobileUNet(n_classes,
     o = (ZeroPadding2D((1, 1), data_format=DATA_FORMAT))(o)
     o = (Conv2D(64, (3, 3), padding='valid', data_format=DATA_FORMAT))(o)
     o = (BatchNormalization())(o)
-    o = Conv2D(n_classes, (3, 3), padding='same',
-               data_format=DATA_FORMAT)(o)
+    o = Conv2D(n_classes, (3, 3), padding='same', data_format=DATA_FORMAT)(o)
 
     model = SegmentationModel(i, o)
     model.model_name = "mobilenet_unet"

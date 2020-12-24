@@ -40,7 +40,7 @@
 		789575BD24D509ED0031FAE4 /* transform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transform.h; sourceTree = "<group>"; };
 		789575C024D50F930031FAE4 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		789575C324D519B50031FAE4 /* Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
-		789575C924D51A6F0031FAE4 /* model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; name = model.tflite; path = ../../../../gdrive/BackSeg/keras_runs/v001/model.tflite; sourceTree = "<group>"; };
+		789575C924D51A6F0031FAE4 /* model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; name = model.tflite; path = ../../../models/model.tflite; sourceTree = "<group>"; };
 		789575CB24D522C60031FAE4 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		78CCB84A24D4CD4100DCD603 /* rtios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rtios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78CCB84D24D4CD4100DCD603 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -488,7 +488,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../tensorflow/tensorflow/lite/tools/make/gen/ios_arm64/lib/";
+				LIBRARY_SEARCH_PATHS = "$(TF_DIR)/tensorflow/lite/tools/make/gen/ios_arm64/lib/";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-l",
@@ -497,9 +497,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.rusito23.rtios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TF_DIR = "$(PROJECT_DIR)/../tensorflow";
 				USER_HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../tensorflow/",
-					"$(PROJECT_DIR)/../tensorflow/bazel-bin/external/flatbuffers/_virtual_includes/flatbuffers/",
+					"$(TF_DIR)/tensorflow/lite/tools/make/downloads/flatbuffers/include/**",
+					"$(TF_DIR)/**",
 				);
 				VALID_ARCHS = "arm64 arm64e";
 			};
@@ -519,7 +520,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/../tensorflow/tensorflow/lite/tools/make/gen/ios_arm64/lib/";
+				LIBRARY_SEARCH_PATHS = "$(TF_DIR)/tensorflow/lite/tools/make/gen/ios_arm64/lib/";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-l",
@@ -528,9 +529,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.rusito23.rtios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TF_DIR = "$(PROJECT_DIR)/../tensorflow";
 				USER_HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../tensorflow/",
-					"$(PROJECT_DIR)/../tensorflow/bazel-bin/external/flatbuffers/_virtual_includes/flatbuffers/",
+					"$(TF_DIR)/tensorflow/lite/tools/make/downloads/flatbuffers/include/**",
+					"$(TF_DIR)/**",
 				);
 				VALID_ARCHS = "arm64 arm64e";
 			};

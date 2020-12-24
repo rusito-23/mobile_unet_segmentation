@@ -181,6 +181,7 @@ dmypy.json
 
 dataset
 runs
+models
 
 # SLURM OUTPUT
 
