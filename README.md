@@ -82,9 +82,9 @@ It uses OpenCV, using the Cocoapods dependency manager. To set up, run `pod inst
 
 ### TODO
 
-- CORE error handling 
-- Improve FPS:
-    - don't blur using the real frame size (~1024). The blur should be made using the frame downscaled to ~512
-    - don't perform blur & mask prediction in same thread, instead, save predicted mask and blur in separated thread
-- perform the thread handling in C++ (is this possible?)
-- Generate a new synthetic dataset (maybe MaskRCNN) to get better background replacement results (generate dataset using selfies and videoconference scenarios)
+- [ ] CORE error handling 
+- [ ] Improve FPS:
+    - [ ] Downscale to ~512/224 to perform the blur
+    - [ ] Perform mask prediction and blur in different threads
+- [ ] Perform the thread handling in C++ (if possible)
+- [ ] Generate a new synthetic dataset (maybe MaskRCNN) to get better background replacement results (generate dataset using selfies and videoconference scenarios)
