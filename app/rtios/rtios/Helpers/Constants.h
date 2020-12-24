@@ -13,6 +13,9 @@
 #define kModelType "tflite"
 #define kThreshold 0.7
 
+#define kDownscaleSize 512
+#define kBackgroundSize 100
+
 #define kMobileUNetProcessorSerialQueue "com.rusito23.mobile.unet.processor.serial.queue"
 
 #endif /* Constants_h */

@@ -84,7 +84,7 @@ It uses OpenCV, using the Cocoapods dependency manager. To set up, run `pod inst
 
 - [ ] CORE error handling 
 - [ ] Improve FPS:
-    - [ ] Downscale to ~512/224 to perform the blur
+    - [X] Downscale to ~512/224 to perform the blur
     - [ ] Perform mask prediction and blur in different threads
 - [ ] Perform the thread handling in C++ (if possible)
 - [ ] Generate a new synthetic dataset (maybe MaskRCNN) to get better background replacement results (generate dataset using selfies and videoconference scenarios)

@@ -23,6 +23,7 @@
 @property (nonatomic) Transformer *transformer;
 @property BOOL processing;
 @property cv::Mat background;
+@property cv::Size originalSize;
 @end
 
 @implementation MobileUNetProcessor
@@ -57,7 +58,7 @@ void dispatch_on_background(dispatch_block_t block) {
         self.predictor = new MaskPredictor{modelPath.UTF8String, kThreshold};
         self.transformer = new Transformer();
         self.mode = MUBackgroundBlurMode;
-        self.background = cv::Mat::ones(100, 100, CV_32FC3)*50;
+        self.background = cv::Mat::ones(kBackgroundSize, kBackgroundSize, CV_32FC3)*50;
     }
     return self;
 }
@@ -67,26 +68,39 @@ void dispatch_on_background(dispatch_block_t block) {
     self.processing = YES;
     
     // convert to opencv
-    cv::Mat target = [ImageConvert cvMatFromSampleBuffer:frame];
-    cvtColor(target, target, cv::COLOR_RGBA2BGR);
-    
+    cv::Mat source = [ImageConvert cvMatFromSampleBuffer:frame];
+    [self preprocess:source];
+
     __weak typeof(self) weakSelf = self;
     dispatch_on_background(^{
         __strong typeof(weakSelf) self = weakSelf;
         
         // process
-        cv::Mat mask = self.predictor->predict_mask(target);
-        cv::Mat result = [self processWithTarget:target andMask:mask];
-        cvtColor(result, result, cv::COLOR_BGR2RGBA);
-        
+        cv::Mat mask = self.predictor->predict_mask(source);
+        cv::Mat result = [self processWithTarget:source andMask:mask];
+
+        [self preprocess:result];
+
         // display on main thread
         dispatch_on_main(^{
             self.processing = NO;
+
             // convert to uiimage and set result to delegate
-            UIImage* im = [ImageConvert uiImageFromCvMat:result];
-            [self.delegate processor:self didProcessFrame:im];
+            UIImage* image = [ImageConvert uiImageFromCvMat:result];
+            [self.delegate processor:self didProcessFrame:image];
         });
     });
+}
+
+- (void) preprocess:(cv::Mat) source {
+    self.originalSize = cv::Size(source.cols, source.rows);
+    cvtColor(source, source, cv::COLOR_RGBA2BGR);
+    cv::resize(source, source, cv::Size(kDownscaleSize, kDownscaleSize));
+}
+
+- (void) postprocess:(cv::Mat) result {
+    cvtColor(result, result, cv::COLOR_BGR2RGBA);
+    cv::resize(result, result, self.originalSize);
 }
 
 - (cv::Mat) processWithTarget:(cv::Mat) target andMask:(cv::Mat) mask {
