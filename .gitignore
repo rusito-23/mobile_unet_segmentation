@@ -186,6 +186,3 @@ runs
 
 slurm/*.out
 slurm/logs
-
-# TF Dependency
-tensorflow
