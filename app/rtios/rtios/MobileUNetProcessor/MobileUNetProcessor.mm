@@ -69,7 +69,11 @@ void dispatch_on_background(dispatch_block_t block) {
     
     // convert to opencv
     cv::Mat source = [ImageConvert cvMatFromSampleBuffer:frame];
-    [self preprocess:source];
+
+    // pre process
+    self.originalSize = cv::Size(source.cols, source.rows);
+    cvtColor(source, source, cv::COLOR_RGBA2BGR);
+    cv::resize(source, source, cv::Size(kDownscaleSize, kDownscaleSize));
 
     __weak typeof(self) weakSelf = self;
     dispatch_on_background(^{
@@ -79,7 +83,9 @@ void dispatch_on_background(dispatch_block_t block) {
         cv::Mat mask = self.predictor->predict_mask(source);
         cv::Mat result = [self processWithTarget:source andMask:mask];
 
-        [self preprocess:result];
+        // post process
+        cvtColor(result, result, cv::COLOR_BGR2RGBA);
+        cv::resize(result, result, self.originalSize);
 
         // display on main thread
         dispatch_on_main(^{
@@ -90,17 +96,6 @@ void dispatch_on_background(dispatch_block_t block) {
             [self.delegate processor:self didProcessFrame:image];
         });
     });
-}
-
-- (void) preprocess:(cv::Mat) source {
-    self.originalSize = cv::Size(source.cols, source.rows);
-    cvtColor(source, source, cv::COLOR_RGBA2BGR);
-    cv::resize(source, source, cv::Size(kDownscaleSize, kDownscaleSize));
-}
-
-- (void) postprocess:(cv::Mat) result {
-    cvtColor(result, result, cv::COLOR_BGR2RGBA);
-    cv::resize(result, result, self.originalSize);
 }
 
 - (cv::Mat) processWithTarget:(cv::Mat) target andMask:(cv::Mat) mask {

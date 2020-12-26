@@ -1,5 +1,9 @@
 
-# Mobile Unet Segmentation
+<h1 align='center'>Mobile Unet Segmentation</h1>
+<p align='center'><img src='demo/icon.png' height='256px'/></p>
+<p align='center'>
+Icon designed by <a href='https://www.flaticon.es/autores/freepik' title='Freepik'>Freepik</a> from <a href='https://www.flaticon.es/' title='Flaticon'>www.flaticon.es</a>
+</p>
 
 Portrait segmentation in Keras, using [divamgupta's segmentation models](https://github.com/divamgupta/image-segmentation-keras) source code. Aiming to perform real time segmentation in mobile and desktop devices, using a common source code written in C++ with Tensorflow Lite.
 
