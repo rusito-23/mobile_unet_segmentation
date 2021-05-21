@@ -1,7 +1,7 @@
 jupyter
 jupyterlab
 
-tensorflow==2.0.1
+tensorflow==2.5.0
 
 opencv-python
 albumentations
